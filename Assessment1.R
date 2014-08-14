@@ -61,18 +61,29 @@ CAweekday<-correctedactivity[correctedactivity["date"]=="weekday",]
 CAweekend<-correctedactivity[correctedactivity["date"]=="weekend",]
 
 #CODE TO REVISE
-par(mfrow=c(2,1))
-stepstimeWD<-mapply(function(x) mean(CAweekday[CAweekday[,"interval"]==x,"steps2"],na.rm=T), intervals)
+par(mfcol=c(2,1),cra=c(300,700))
+stepstimeWD<-mapply(function(x) mean(CAweekday[CAweekday[,"interval"]==x,"correctedsteps"],na.rm=T),SIMPLIFY=F, intervals)
     plot(intervalsnum,stepstimeWD,type="l",axes=FALSE,
-         xlab="Time of the day",ylab="Mean number of steps across all days")
+         xlab="Time of the day",ylab="")
     axis(side=1,at=c(0,500,1000,1500,2000,2359), 
          labels=c("00:00","05:00","10:00","15:00","20:00","23:59"))
-    axis(side=2,at=c(0,50,100,150,200), c(0,50,100,150,200))
-stepstimeWE<-mapply(function(x) mean(CAweekend[CAweekend[,"interval"]==x,"steps2"],na.rm=T), intervals)
+    axis(side=2,at=c(0,50,100,150,200,250), c(0,50,100,150,200,250))
+stepstimeWE<-mapply(function(x) mean(CAweekend[CAweekend[,"interval"]==x,"correctedsteps"],na.rm=T),SIMPLIFY=F, intervals)
     plot(intervalsnum,stepstimeWE,type="l",axes=FALSE,
-         xlab="Time of the day",ylab="Mean number of steps across all days")
+         xlab="Time of the day",ylab="")
     axis(side=1,at=c(0,500,1000,1500,2000,2359), 
          labels=c("00:00","05:00","10:00","15:00","20:00","23:59"))
-    axis(side=2,at=c(0,50,100,150,200), c(0,50,100,150,200))
+    axis(side=2,at=c(0,50,100,150,200,250), c(0,50,100,150,200,250))
 
- 
+x<-as.data.frame(cbind(intervals,stepstimeWD,date="weekday"),colnames=c("intervals","stepstimeWE","date"))
+y<-as.data.frame(cbind(intervals,stepstimeWE,date="weekend"))
+colnames(y[2])<-"steptime"
+colnames(x[2])<-"steptime"
+z<-rbind(x,y)
+names(x)
+
+install.packages("lattice")
+library(lattice)
+
+xyplot( ~ interval, data=correctedactivity, type='b')
+  ?xyplot
