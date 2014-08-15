@@ -1,9 +1,9 @@
+#Unzipping and reading the data
+unzip("./Data/activity.zip", exdir="./Data")
+activity<-read.csv("./Data/activity.csv")
+
 #Setting the local language to english, to work with weekdays
 Sys.setlocale("LC_TIME", "English")
-
-#Unzipping and reading the data
-unzip("activity.zip", exdir="./Data")
-activity<-read.csv("./Data/activity.csv")
 
 #Storing the activity intervals as a variable for later use
 intervalsnum<-as.numeric(unique(activity[,"interval"]))

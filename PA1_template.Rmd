@@ -1,13 +1,49 @@
-# Reproducible Research: Peer Assessment 1
-
+---
+title: "Reproducible Research: Peer Assessment 1"
+author: "Xavier Merino"
+date: "Friday, August 15, 2014"
+output: html_document
+---
 
 ## Loading and preprocessing the data
+Check existence of Data folder and create it if it's not present
+```{r}
+if (!file.exists("./Data")){
+  dir.create("./Data")
+}
+```
 
-
+Unzipping and reading the data
+```{r}
+download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip","./Data/activity.zip")
+unzip("./Data/activity.zip", exdir="./Data")
+activity<-read.csv("./Data/activity.csv")
+```
+Setting the local language to english, to work with weekdays
+```{r}
+Sys.setlocale("LC_TIME", "English")
+```
+Storing the activity intervals as a variable for later use
+```{r}
+intervalsnum<-as.numeric(unique(activity[,"interval"]))
+```
+Converting the interval column into time format
+```{r}
+temp2 <- mapply(function(x, y) paste0(rep(x, y), collapse = ""), 0, 4 - nchar(activity[,"interval"]))
+activity[,"interval"]<-paste0(temp2, activity[,"interval"])
+activity[,"interval"]<-format(strptime(activity[,"interval"], format="%H%M"), format = "%H:%M")
+```
+Converting the date column into date format
+```{r}
+activity[,"date"]<-strftime(activity[,"date"],format="%Y-%m-%d")
+```
+Getting vectors with all the diferent dates and times 
+```{r}
+dates<-as.Date(unique(activity[,"date"]))
+intervals<-unique(activity[,"interval"])
+```
 
 ## What is mean total number of steps taken per day?
-
-
 
 ## What is the average daily activity pattern?
 
