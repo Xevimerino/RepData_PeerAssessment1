@@ -111,8 +111,8 @@ Therefore it can be said that the inclusion of the mean values in place of the N
 
 ## Are there differences in activity patterns between weekdays and weekends?  
 In this part of the code we take the new data set and modify the data so we can set a new factor. The date at which the data was taken is classified in two levels:  
-- weekdays  
-- weekend  
+* weekdays
+* weekend
 
 ```{r}
 correctedactivity[,"date"]<-weekdays(correctedactivity[,"date"])
