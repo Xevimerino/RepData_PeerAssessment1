@@ -1,9 +1,15 @@
-#Setting the local language to english, to work with weekdays
-Sys.setlocale("LC_TIME", "English")
+#Check existence of Data folder and create it if it's not present
+if (!file.exists("./Data")){
+  dir.create("./Data")
+}
 
 #Unzipping and reading the data
-unzip("activity.zip", exdir="./Data")
+download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip","./Data/activity.zip")
+unzip("./Data/activity.zip", exdir="./Data")
 activity<-read.csv("./Data/activity.csv")
+
+#Setting the local language to english, to work with weekdays
+Sys.setlocale("LC_TIME", "English")
 
 #Storing the activity intervals as a variable for later use
 intervalsnum<-as.numeric(unique(activity[,"interval"]))
